@@ -1,4 +1,5 @@
 package app;
+import java.util.List; // інтерфейс List для створення списків (ArrayList)
 import java.util.ArrayList; // замінено масив на ArrayList
 import java.util.Scanner; // додано для зберігання книг у списку
 
@@ -7,8 +8,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         List<Book> books = new ArrayList<>(); // змінено: замість масиву тепер список
 
-        books[0] = new Book("1984", "George Orwell", 1949, 250.0);
-        books[1] = new Book("Fahrenheit 451", "Ray Bradbury", 1953, 220.0);
+        books.add(new Book("1984", "George Orwell", 1949, 250.0, "Dystopia", 328));
+        books.add(new Book("Fahrenheit 451", "Ray Bradbury", 1953, 220.0, "Dystopia", 256));
 
         while (true) { // додано консольне меню
             System.out.println("\nМеню:");
