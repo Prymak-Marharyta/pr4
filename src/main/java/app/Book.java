@@ -7,12 +7,16 @@ public class Book {
     private String author;
     private int year;
     private double price;
+    private String genre;  // новий атрибут
+    private int pages;     // новий атрибут
 
     public Book(String title, String author, int year, double price) {
         this.title = title;
         this.author = author;
         this.year = year;
         this.price = price;
+        this.genre = genre; // нова характеристика книги
+        this.pages = pages; // нова характеристика книги
     }
 
     public String getTitle() { return title; }
@@ -27,6 +31,14 @@ public class Book {
     public double getPrice() { return price; }
     public void setPrice(double price) { this.price = price; }
 
+    // геттер і сеттер для нового поля genre
+    public String getGenre() { return genre;} 
+    public void setGenre(String genre) { this.genre = genre;}
+
+    // геттер і сеттер для нового поля pages
+    public int getPages() { return pages; }
+    public void setPages(int pages) { this.pages = pages;}
+
     @Override
     public String toString() {
         return "Book{" +
@@ -34,6 +46,8 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", year=" + year +
                 ", price=" + price +
+                ", genre='" + genre + '\'' + // нове поле genre
+                ", pages=" + pages + // нове поле pages
                 '}';
     }
 
