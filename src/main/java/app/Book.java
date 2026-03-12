@@ -88,19 +88,22 @@ public class Book {
                 '}';
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Book)) return false;
         Book book = (Book) o;
-        return year == book.year
-                && Double.compare(book.price, price) == 0
-                && Objects.equals(title, book.title)
-                && Objects.equals(author, book.author);
+        return year == book.year &&
+                Double.compare(book.price, price) == 0 &&
+                pages == book.pages &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(genre, book.genre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, author, year, price);
+        return Objects.hash(title, author, year, price, genre, pages);
     }
 }
