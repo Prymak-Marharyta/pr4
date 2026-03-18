@@ -44,7 +44,7 @@ public class Main {
                         library.addBook(book);
 
                         // перевірка конструктора копіювання
-                        Book copy = new Book(book);
+                        Book copy = new Book(book, true);
                         System.out.println("Копія книги: " + copy);
 
                         System.out.println("Книга додана!");
