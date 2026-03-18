@@ -7,73 +7,65 @@ public class Book {
     private String author;
     private int year;
     private double price;
-    private String genre;  // новий атрибут
-    private int pages;     // новий атрибут
+    private Genre genre; // тепер enum
+    private int pages;
 
     // Конструктор з перевірками через сеттери
-    public Book(String title, String author, int year, double price, String genre, int pages) {
+    public Book(String title, String author, int year, double price, Genre genre, int pages) {
         setTitle(title); // перевірка, щоб назва не була порожньою
         setAuthor(author); // перевірка, щоб автор не був порожнім
         setYear(year); // перевірка на логічний рік
         setPrice(price); // перевірка, щоб ціна >= 0
         setGenre(genre); // перевірка, щоб жанр не був порожнім
         setPages(pages); // перевірка, щоб сторінок > 0
+        count++; // збільшуємо лічильник
     }
 
-    // додано перевірку для коректності назви книги
+     // static геттер
+    public static int getCount() {
+        return count;
+    }
+
     public String getTitle() { return title; }
     public void setTitle(String title) {
-    if (title == null || title.isBlank()) {
-        throw new IllegalArgumentException("Назва не може бути порожньою");
-    }
-    this.title = title;
+        if (title == null || title.isBlank())
+            throw new IllegalArgumentException("Назва не може бути порожньою");
+        this.title = title;
     }
 
-    // додано перевірку, щоб автор не був порожнім
     public String getAuthor() { return author; }
-        public void setAuthor(String author) {
-        if (author == null || author.isBlank()) {
+    public void setAuthor(String author) {
+        if (author == null || author.isBlank())
             throw new IllegalArgumentException("Автор не може бути порожнім");
-        }
         this.author = author;
     }
 
-    // додано перевірку на логічний рік видання
     public int getYear() { return year; }
-       public void setYear(int year) {
-        if (year < 0 || year > 3000) {
-            throw new IllegalArgumentException("Рік повинен бути в діапазоні [1; 2100]");
-        }
+    public void setYear(int year) {
+        if (year < 0 || year > 3000)
+            throw new IllegalArgumentException("Некоректний рік");
         this.year = year;
     }
 
-    // додано перевірку, щоб ціна не була від’ємною
     public double getPrice() { return price; }
     public void setPrice(double price) {
-    if (price < 0) {
-        throw new IllegalArgumentException("Ціна не може бути від'ємною");
-    }
-    this.price = price;
-    }
-
-    // геттер і сеттер для нового поля genre
-    // додано перевірку, щоб жанр не був порожнім
-    public String getGenre() { return genre;} 
-    public void setGenre(String genre) {
-    if (genre == null || genre.isBlank()) {
-        throw new IllegalArgumentException("Жанр не може бути порожнім");
-    }
-    this.genre = genre;
+        if (price < 0)
+            throw new IllegalArgumentException("Ціна не може бути від’ємною");
+        this.price = price;
     }
 
-    // геттер і сеттер для нового поля pages
-    // додано перевірку, щоб кількість сторінок була більше 0
+    public Genre getGenre() { return genre; }
+    public void setGenre(Genre genre) {
+        if (genre == null)
+            throw new IllegalArgumentException("Жанр не може бути null");
+        this.genre = genre;
+    }
+    
     public int getPages() { return pages; }
     public void setPages(int pages) {
-    if (pages <= 0) {
-        throw new IllegalArgumentException("Кількість сторінок має бути більше 0");
-    }
-    this.pages = pages;
+        if (pages <= 0)
+            throw new IllegalArgumentException("Сторінки > 0");
+        this.pages = pages;
     }
 
     @Override
@@ -83,8 +75,8 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", year=" + year +
                 ", price=" + price +
-                ", genre='" + genre + '\'' + // нове поле genre
-                ", pages=" + pages + // нове поле pages
+                ", genre=" + genre +
+                ", pages=" + pages +
                 '}';
     }
 
