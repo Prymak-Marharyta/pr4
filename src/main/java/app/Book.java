@@ -10,6 +10,8 @@ public class Book {
     private Genre genre; // тепер enum
     private int pages;
 
+    private static int count = 0;
+
     // Конструктор з перевірками через сеттери
     public Book(String title, String author, int year, double price, Genre genre, int pages) {
         setTitle(title); // перевірка, щоб назва не була порожньою
@@ -19,6 +21,11 @@ public class Book {
         setGenre(genre); // перевірка, щоб жанр не був порожнім
         setPages(pages); // перевірка, щоб сторінок > 0
         count++; // збільшуємо лічильник
+    }
+
+    // конструктор копіювання
+    public Book(Book other) {
+        this(other.title, other.author, other.year, other.price, other.genre, other.pages);
     }
 
      // static геттер
