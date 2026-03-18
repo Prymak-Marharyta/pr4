@@ -24,14 +24,13 @@ public class Book {
     }
 
     // конструктор копіювання
-    public Book(Book other, boolean incrementCount) {
+    public Book(Book other) {
         this.title = other.title;
         this.author = other.author;
         this.year = other.year;
         this.price = other.price;
         this.genre = other.genre;
         this.pages = other.pages;
-        if (incrementCount) count++;
     }
 
      // static геттер
