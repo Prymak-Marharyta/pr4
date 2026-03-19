@@ -25,12 +25,7 @@ public class Book {
 
     // конструктор копіювання
     public Book(Book other) {
-        this.title = other.title;
-        this.author = other.author;
-        this.year = other.year;
-        this.price = other.price;
-        this.genre = other.genre;
-        this.pages = other.pages;
+    this(other.title, other.author, other.year, other.price, other.genre, other.pages);
     }
 
      // static геттер

@@ -93,16 +93,19 @@ public class Main {
 
     // метод для безпечного читання double з перевіркою діапазону
     private static double readDouble(Scanner sc, String prompt, double min, double max) {
-        while (true) {
-            System.out.print(prompt);
-            String s = sc.nextLine().trim().replace(',', '.');
-            try {
-                double value = Double.parseDouble(s);
-                if (value < min || value > max) throw new IllegalArgumentException();
-                return value;
-            } catch (Exception e) {
-                System.out.println("Помилка: введи число (можна з крапкою).");
+    while (true) {
+        System.out.print(prompt);
+        String s = sc.nextLine().trim().replace(',', '.');
+        try {
+            double value = Double.parseDouble(s);
+            if (value < min || value > max) {
+                System.out.println("Помилка: число повинно бути в діапазоні від " + min + " до " + max);
+                continue; 
             }
+            return value;
+        } catch (NumberFormatException e) {
+            System.out.println("Помилка: введи число (можна з крапкою).");
+        }
         }
     }
 }
