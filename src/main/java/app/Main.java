@@ -5,20 +5,13 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
        Scanner sc = new Scanner(System.in);
-       Library library = new Library();
-
-        // стартові книги
-        library.addBook(new Book("1984", "Orwell", 1949, 250, Genre.FICTION, 300));
-        library.addBook(new Book("451", "Bradbury", 1953, 200, Genre.FANTASY, 250));
-
 
         System.out.println("=== Система обліку книг ===");
 
         while (true) {
              System.out.println("\n1. Додати книгу");
             System.out.println("2. Показати всі");
-            System.out.println("3. Кількість книг");
-            System.out.println("4. Вихід");
+            System.out.println("3. Вихід");
             System.out.print("Вибір: ");
 
             String choice = sc.nextLine().trim();
@@ -41,7 +34,6 @@ public class Main {
                         int pages = readInt(sc, "Сторінки: ", 1, 10000);
 
                         Book book = new Book(title, author, year, price, genre, pages);
-                        library.addBook(book);
 
                         // перевірка конструктора копіювання
                         Book copy = new Book(book);
@@ -55,15 +47,12 @@ public class Main {
                 break;
 
                  case "2":
+                    // На цьому етапі список книг не зберігається в колекції,
+                    // тому нічого не виводимо. Пізніше буде ArrayList для всіх книг.
                     System.out.println("\n--- Список книг ---");
-                    library.showBooks();
                     break;
 
                 case "3":
-                    System.out.println("Кількість створених книг: " + Book.getCount());
-                    break;
-
-                case "4":
                     System.out.println("До побачення!");
                     sc.close();
                     return;
