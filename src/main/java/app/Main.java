@@ -1,100 +1,142 @@
 package app;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-       Scanner sc = new Scanner(System.in);
+
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Book> books = new ArrayList<>();
 
         System.out.println("=== Система обліку книг ===");
 
         while (true) {
-             System.out.println("\n1. Додати книгу");
-            System.out.println("2. Показати всі");
-            System.out.println("3. Вихід");
+            System.out.println("\n1. Додати Book");
+            System.out.println("2. Додати EBook");
+            System.out.println("3. Додати PaperBook");
+            System.out.println("4. Показати всі");
+            System.out.println("5. Вихід");
             System.out.print("Вибір: ");
 
             String choice = sc.nextLine().trim();
 
-            switch (choice) { 
-                case "1": 
-                 try { 
-                        System.out.print("Назва: ");
-                        String title = sc.nextLine().trim();
+            try {
+                switch (choice) {
+                    case "1": {
+                        Book book = createBaseBook(sc);
+                        books.add(book);
+                        System.out.println("Додано Book");
+                        break;
+                    }
 
-                        System.out.print("Автор: ");
-                        String author = sc.nextLine().trim();
+                
+                    case "2": {
+                        Book base = createBaseBook(sc);
 
-                        int year = readInt(sc, "Рік: ", 0, 3000);
-                        double price = readDouble(sc, "Ціна: ", 0, 100000);
+                        double fileSize = readDouble(sc, "Розмір файлу (MB): ", 0, 10000);
 
-                        System.out.println("Жанр (FICTION, SCIENCE, HISTORY, FANTASY, DETECTIVE): ");
-                        Genre genre = Genre.valueOf(sc.nextLine().trim().toUpperCase());
+                        EBook ebook = new EBook(
+                                base.getTitle(),
+                                base.getAuthor(),
+                                base.getYear(),
+                                base.getPrice(),
+                                base.getGenre(),
+                                base.getPages(),
+                                fileSize
+                        );
 
-                        int pages = readInt(sc, "Сторінки: ", 1, 10000);
+                        books.add(ebook);
+                        System.out.println("Додано EBook");
+                        break;
+                    }
 
-                        Book book = new Book(title, author, year, price, genre, pages);
+                    case "3": {
+                        Book base = createBaseBook(sc);
 
-                        // перевірка конструктора копіювання
-                        Book copy = new Book(book);
-                        System.out.println("Копія книги: " + copy);
+                        System.out.print("Тип обкладинки: ");
+                        String cover = sc.nextLine();
 
-                        System.out.println("Книга додана!");
+                        PaperBook pb = new PaperBook(
+                                base.getTitle(),
+                                base.getAuthor(),
+                                base.getYear(),
+                                base.getPrice(),
+                                base.getGenre(),
+                                base.getPages(),
+                                cover
+                        );
 
-                } catch (Exception e) {
-                    System.out.println("Помилка: " + e.getMessage());
+                        books.add(pb);
+                        System.out.println("Додано PaperBook");
+                        break;
+                    }
+
+                    case "4":
+                        System.out.println("\n--- Список ---");
+                        for (Book b : books) {
+                            System.out.println(b); // ПОЛІМОРФІЗМ
+                        }
+                        break;
+
+                    case "5":
+                        System.out.println("До побачення!");
+                        return;
+
+                    default:
+                        System.out.println("Невірний вибір");
                 }
-                break;
 
-                 case "2":
-                    // На цьому етапі список книг не зберігається в колекції,
-                    // тому нічого не виводимо. Пізніше буде ArrayList для всіх книг.
-                    System.out.println("\n--- Список книг ---");
-                    break;
-
-                case "3":
-                    System.out.println("До побачення!");
-                    sc.close();
-                    return;
-
-               
-                default:
-                    System.out.println("Невірний вибір. Спробуй ще раз.");
+            } catch (Exception e) {
+                System.out.println("Помилка: " + e.getMessage());
             }
         }
     }
+                
+    private static Book createBaseBook(Scanner sc) {
+        System.out.print("Назва: ");
+        String title = sc.nextLine();
 
+        System.out.print("Автор: ");
+        String author = sc.nextLine();
+
+        int year = readInt(sc, "Рік: ", 0, 3000);
+        double price = readDouble(sc, "Ціна: ", 0, 100000);
+
+        System.out.println("Жанр (FICTION, SCIENCE, HISTORY, FANTASY, DETECTIVE): ");
+        Genre genre = Genre.valueOf(sc.nextLine().trim().toUpperCase());
+
+        int pages = readInt(sc, "Сторінки: ", 1, 10000);
+
+        return new Book(title, author, year, price, genre, pages);
+    }
 
     // метод для безпечного читання int з перевіркою діапазону
     private static int readInt(Scanner sc, String prompt, int min, int max) {
         while (true) {
             System.out.print(prompt);
-            String s = sc.nextLine().trim();
             try {
-                int value = Integer.parseInt(s);
-                if (value < min || value > max) throw new IllegalArgumentException();
+                int value = Integer.parseInt(sc.nextLine());
+                if (value < min || value > max) throw new Exception();
                 return value;
             } catch (Exception e) {
-                System.out.println("Помилка: введи правильне ціле число.");
+                System.out.println("Помилка вводу");
             }
         }
     }
 
+
     // метод для безпечного читання double з перевіркою діапазону
     private static double readDouble(Scanner sc, String prompt, double min, double max) {
-    while (true) {
-        System.out.print(prompt);
-        String s = sc.nextLine().trim().replace(',', '.');
-        try {
-            double value = Double.parseDouble(s);
-            if (value < min || value > max) {
-                System.out.println("Помилка: число повинно бути в діапазоні від " + min + " до " + max);
-                continue; 
+        while (true) {
+            System.out.print(prompt);
+            try {
+                double value = Double.parseDouble(sc.nextLine().replace(',', '.'));
+                if (value < min || value > max) throw new Exception();
+                return value;
+            } catch (Exception e) {
+                System.out.println("Помилка вводу");
             }
-            return value;
-        } catch (NumberFormatException e) {
-            System.out.println("Помилка: введи число (можна з крапкою).");
-        }
         }
     }
 }
