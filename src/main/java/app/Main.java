@@ -31,7 +31,6 @@ public class Main {
                         break;
                     }
 
-                
                     case "2": {
                         Book base = createBaseBook(sc);
 
@@ -73,14 +72,62 @@ public class Main {
                         break;
                     }
 
-                    case "4":
+                    case "4": {
+                        Book base = createBaseBook(sc);
+
+                        int duration = readInt(sc, "Тривалість (хв): ", 1, 10000);
+
+                        System.out.print("Диктор: ");
+                        String narrator = sc.nextLine();
+
+                        AudioBook ab = new AudioBook(
+                                base.getTitle(),
+                                base.getAuthor(),
+                                base.getYear(),
+                                base.getPrice(),
+                                base.getGenre(),
+                                base.getPages(),
+                                duration,
+                                narrator
+                        );
+
+                        books.add(ab);
+                        System.out.println("Додано AudioBook");
+                        break;
+                    }
+
+                    case "5": {
+                        Book base = createBaseBook(sc);
+
+                        System.out.print("Стан книги: ");
+                        String condition = sc.nextLine();
+
+                        double discount = readDouble(sc, "Знижка (%): ", 0, 100);
+
+                        UsedBook ub = new UsedBook(
+                                base.getTitle(),
+                                base.getAuthor(),
+                                base.getYear(),
+                                base.getPrice(),
+                                base.getGenre(),
+                                base.getPages(),
+                                condition,
+                                discount
+                        );
+
+                        books.add(ub);
+                        System.out.println("Додано UsedBook");
+                        break;
+                    }
+                    
+                    case "6":
                         System.out.println("\n--- Список ---");
                         for (Book b : books) {
                             System.out.println(b); // ПОЛІМОРФІЗМ
                         }
                         break;
 
-                    case "5":
+                    case "7":
                         System.out.println("До побачення!");
                         return;
 
