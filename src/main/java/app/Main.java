@@ -12,12 +12,13 @@ public class Main {
         System.out.println("=== Система обліку книг ===");
 
         while (true) {
-            System.out.println("\n1. Додати Book");
+            System.out.println("1. Додати Book");
             System.out.println("2. Додати EBook");
             System.out.println("3. Додати PaperBook");
-            System.out.println("4. Показати всі");
-            System.out.println("5. Вихід");
-            System.out.print("Вибір: ");
+            System.out.println("4. Додати AudioBook");
+            System.out.println("5. Додати UsedBook");
+            System.out.println("6. Показати всі");
+            System.out.println("7. Вихід");
 
             String choice = sc.nextLine().trim();
 
