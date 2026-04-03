@@ -9,130 +9,39 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         ArrayList<Book> books = new ArrayList<>();
 
-        System.out.println("=== Система обліку книг ===");
+        System.out.println("=== Система облiку книг ===");
 
         while (true) {
-            System.out.println("1. Додати Book");
-            System.out.println("2. Додати EBook");
-            System.out.println("3. Додати PaperBook");
-            System.out.println("4. Додати AudioBook");
-            System.out.println("5. Додати UsedBook");
-            System.out.println("6. Показати всі");
-            System.out.println("7. Вихід");
+            System.out.println("\n=== Головне меню ===");
+            System.out.println("1. Створити новий об’єкт");
+            System.out.println("2. Вивести iнформацiю про всi об’єкти");
+            System.out.println("3. Завершити роботу програми");
 
             String choice = sc.nextLine().trim();
 
             try {
                 switch (choice) {
-                    case "1": {
-                        Book book = createBaseBook(sc);
-                        books.add(book);
-                        System.out.println("Додано Book");
+                    case "1":
+                        createNewObjectMenu(sc, books);
                         break;
-                    }
 
-                    case "2": {
-                        Book base = createBaseBook(sc);
-
-                        double fileSize = readDouble(sc, "Розмір файлу (MB): ", 0, 10000);
-
-                        EBook ebook = new EBook(
-                                base.getTitle(),
-                                base.getAuthor(),
-                                base.getYear(),
-                                base.getPrice(),
-                                base.getGenre(),
-                                base.getPages(),
-                                fileSize
-                        );
-
-                        books.add(ebook);
-                        System.out.println("Додано EBook");
-                        break;
-                    }
-
-                    case "3": {
-                        Book base = createBaseBook(sc);
-
-                        System.out.print("Тип обкладинки: ");
-                        String cover = sc.nextLine();
-
-                        PaperBook pb = new PaperBook(
-                                base.getTitle(),
-                                base.getAuthor(),
-                                base.getYear(),
-                                base.getPrice(),
-                                base.getGenre(),
-                                base.getPages(),
-                                cover
-                        );
-
-                        books.add(pb);
-                        System.out.println("Додано PaperBook");
-                        break;
-                    }
-
-                    case "4": {
-                        Book base = createBaseBook(sc);
-
-                        int duration = readInt(sc, "Тривалість (хв): ", 1, 10000);
-
-                        System.out.print("Диктор: ");
-                        String narrator = sc.nextLine();
-
-                        AudioBook ab = new AudioBook(
-                                base.getTitle(),
-                                base.getAuthor(),
-                                base.getYear(),
-                                base.getPrice(),
-                                base.getGenre(),
-                                base.getPages(),
-                                duration,
-                                narrator
-                        );
-
-                        books.add(ab);
-                        System.out.println("Додано AudioBook");
-                        break;
-                    }
-
-                    case "5": {
-                        Book base = createBaseBook(sc);
-
-                        System.out.print("Стан книги: ");
-                        String condition = sc.nextLine();
-
-                        double discount = readDouble(sc, "Знижка (%): ", 0, 100);
-
-                        UsedBook ub = new UsedBook(
-                                base.getTitle(),
-                                base.getAuthor(),
-                                base.getYear(),
-                                base.getPrice(),
-                                base.getGenre(),
-                                base.getPages(),
-                                condition,
-                                discount
-                        );
-
-                        books.add(ub);
-                        System.out.println("Додано UsedBook");
-                        break;
-                    }
-                    
-                    case "6":
-                        System.out.println("\n--- Список ---");
-                        for (Book b : books) {
-                            System.out.println(b); // ПОЛІМОРФІЗМ
+                    case "2":
+                        System.out.println("\n--- Список книг ---");
+                        if (books.isEmpty()) {
+                            System.out.println("Список порожнiй.");
+                        } else {
+                            for (Book b : books) {
+                                System.out.println(b); // ПОЛIФОРМIЗМ
+                            }
                         }
                         break;
 
-                    case "7":
+                    case "3":
                         System.out.println("До побачення!");
                         return;
 
                     default:
-                        System.out.println("Невірний вибір");
+                        System.out.println("Невiрний вибiр");
                 }
 
             } catch (Exception e) {
@@ -140,7 +49,126 @@ public class Main {
             }
         }
     }
-                
+
+    // меню створення об’єкта
+    private static void createNewObjectMenu(Scanner sc, ArrayList<Book> books) {
+        while (true) {
+            System.out.println("\n--- Створення нового об’єкта ---");
+            System.out.println("1. Book");
+            System.out.println("2. EBook");
+            System.out.println("3. PaperBook");
+            System.out.println("4. AudioBook");
+            System.out.println("5. UsedBook");
+            System.out.println("0. Назад у головне меню");
+
+            String typeChoice = sc.nextLine().trim();
+
+            switch (typeChoice) {
+                case "0":
+                    return;
+
+                case "1": {
+                    Book book = createBaseBook(sc);
+                    books.add(book);
+                    System.out.println("Додано Book");
+                    return;
+                }
+
+                case "2": {
+                    Book base = createBaseBook(sc);
+                    double fileSize = readDouble(sc, "Розмiр файлу (MB): ", 0, 10000);
+
+                    EBook ebook = new EBook(
+                            base.getTitle(),
+                            base.getAuthor(),
+                            base.getYear(),
+                            base.getPrice(),
+                            base.getGenre(),
+                            base.getPages(),
+                            fileSize
+                    );
+
+                    books.add(ebook);
+                    System.out.println("Додано EBook");
+                    return;
+                }
+
+                case "3": {
+                    Book base = createBaseBook(sc);
+
+                    System.out.print("Тип обкладинки: ");
+                    String cover = sc.nextLine();
+
+                    PaperBook pb = new PaperBook(
+                            base.getTitle(),
+                            base.getAuthor(),
+                            base.getYear(),
+                            base.getPrice(),
+                            base.getGenre(),
+                            base.getPages(),
+                            cover
+                    );
+
+                    books.add(pb);
+                    System.out.println("Додано PaperBook");
+                    return;
+                }
+
+                case "4": {
+                    Book base = createBaseBook(sc);
+
+                    int duration = readInt(sc, "Тривалiсть (хв): ", 1, 10000);
+
+                    System.out.print("Диктор: ");
+                    String narrator = sc.nextLine();
+
+                    AudioBook ab = new AudioBook(
+                            base.getTitle(),
+                            base.getAuthor(),
+                            base.getYear(),
+                            base.getPrice(),
+                            base.getGenre(),
+                            base.getPages(),
+                            duration,
+                            narrator
+                    );
+
+                    books.add(ab);
+                    System.out.println("Додано AudioBook");
+                    return;
+                }
+
+                case "5": {
+                    Book base = createBaseBook(sc);
+
+                    System.out.print("Стан книги: ");
+                    String condition = sc.nextLine();
+
+                    double discount = readDouble(sc, "Знижка (%): ", 0, 100);
+
+                    UsedBook ub = new UsedBook(
+                            base.getTitle(),
+                            base.getAuthor(),
+                            base.getYear(),
+                            base.getPrice(),
+                            base.getGenre(),
+                            base.getPages(),
+                            condition,
+                            discount
+                    );
+
+                    books.add(ub);
+                    System.out.println("Додано UsedBook");
+                    return;
+                }
+
+                default:
+                    System.out.println("Невiрний вибiр типу. Спробуйте ще раз.");
+            }
+        }
+    }
+
+    // cтворення базового об'єкта Book
     private static Book createBaseBook(Scanner sc) {
         System.out.print("Назва: ");
         String title = sc.nextLine();
@@ -148,13 +176,20 @@ public class Main {
         System.out.print("Автор: ");
         String author = sc.nextLine();
 
-        int year = readInt(sc, "Рік: ", 0, 3000);
-        double price = readDouble(sc, "Ціна: ", 0, 100000);
+        int year = readInt(sc, "Рiк: ", 0, 3000);
+        double price = readDouble(sc, "Цiна: ", 0, 100000);
 
-        System.out.println("Жанр (FICTION, SCIENCE, HISTORY, FANTASY, DETECTIVE): ");
-        Genre genre = Genre.valueOf(sc.nextLine().trim().toUpperCase());
+        Genre genre = null;
+        while (genre == null) {
+            try {
+                System.out.println("Жанр (FICTION, SCIENCE, HISTORY, FANTASY, DETECTIVE): ");
+                genre = Genre.valueOf(sc.nextLine().trim().toUpperCase());
+            } catch (Exception e) {
+                System.out.println("Невiрний жанр. Спробуйте ще раз.");
+            }
+        }
 
-        int pages = readInt(sc, "Сторінки: ", 1, 10000);
+        int pages = readInt(sc, "Сторiнки: ", 1, 10000);
 
         return new Book(title, author, year, price, genre, pages);
     }
@@ -172,7 +207,6 @@ public class Main {
             }
         }
     }
-
 
     // метод для безпечного читання double з перевіркою діапазону
     private static double readDouble(Scanner sc, String prompt, double min, double max) {
