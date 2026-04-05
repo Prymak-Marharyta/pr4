@@ -1,5 +1,6 @@
-Book;Harry Potter;Rowling;2001;500;FANTASY;300
-EBook;The Pragmatic Programmer;Andrew Hunt;1999;450;SCIENCE;352;5.5
-PaperBook;Sapiens;Yuval Harari;2011;380;HISTORY;443;Paperback
-AudioBook;The Lord of the Rings;J.R.R. Tolkien;1954;600;FANTASY;1178;720;Rob Inglis
-UsedBook;Sherlock Holmes;Arthur Conan Doyle;1892;200;DETECTIVE;250;good;25
+Book;Harry Potter;Rowling;2001;500.0;FANTASY;300
+EBook;The Pragmatic Programmer;Andrew Hunt;1999;450.0;SCIENCE;352;5.5
+PaperBook;Sapiens;Yuval Harari;2011;380.0;HISTORY;443;Paperback
+AudioBook;The Lord of the Rings;J.R.R. Tolkien;1954;600.0;FANTASY;1178;720;Rob Inglis
+UsedBook;Sherlock Holmes;Arthur Conan Doyle;1892;200.0;DETECTIVE;250;good;25.0
+EBook;Pirates of the Caribbean;Anne Crispin;2011;150.0;FANTASY;624;6.0

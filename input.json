@@ -1,0 +1,53 @@
+[
+  {
+    "type": "Book",
+    "title": "Harry Potter",
+    "author": "Rowling",
+    "year": 2001,
+    "price": 500.0,
+    "genre": "FANTASY",
+    "pages": 300
+  },
+  {
+    "type": "EBook",
+    "title": "The Pragmatic Programmer",
+    "author": "Andrew Hunt",
+    "year": 1999,
+    "price": 450.0,
+    "genre": "SCIENCE",
+    "pages": 352,
+    "fileSize": 5.5
+  },
+  {
+    "type": "PaperBook",
+    "title": "Sapiens",
+    "author": "Yuval Harari",
+    "year": 2011,
+    "price": 380.0,
+    "genre": "HISTORY",
+    "pages": 443,
+    "coverType": "Paperback"
+  },
+  {
+    "type": "AudioBook",
+    "title": "The Lord of the Rings",
+    "author": "J.R.R. Tolkien",
+    "year": 1954,
+    "price": 600.0,
+    "genre": "FANTASY",
+    "pages": 1178,
+    "duration": 720,
+    "narrator": "Rob Inglis"
+  },
+  {
+    "type": "UsedBook",
+    "title": "Sherlock Holmes",
+    "author": "Arthur Conan Doyle",
+    "year": 1892,
+    "price": 200.0,
+    "genre": "DETECTIVE",
+    "pages": 250,
+    "condition": "good",
+    "discount": 25.0
+  }
+]
