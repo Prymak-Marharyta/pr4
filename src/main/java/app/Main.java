@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        ArrayList<Book> books = FileManager.loadFromFile("input.txt");
+        ArrayList<Book> books = JsonManager.load("input.json");
 
         System.out.println("=== Система облiку книг ===");
 
@@ -37,7 +37,7 @@ public class Main {
                         break;
 
                     case "3":
-                        FileManager.saveToFile(books, "input.txt");
+                        JsonManager.save(books, "input.json");
                         System.out.println("Дані збережено!");
                     return;
 
