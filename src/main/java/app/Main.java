@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        ArrayList<Book> books = new ArrayList<>();
+        ArrayList<Book> books = FileManager.loadFromFile("input.txt");
 
         System.out.println("=== Система облiку книг ===");
 
@@ -37,8 +37,9 @@ public class Main {
                         break;
 
                     case "3":
-                        System.out.println("До побачення!");
-                        return;
+                        FileManager.saveToFile(books, "input.txt");
+                        System.out.println("Дані збережено!");
+                    return;
 
                     default:
                         System.out.println("Невiрний вибiр");
