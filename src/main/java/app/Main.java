@@ -15,7 +15,8 @@ public class Main {
             System.out.println("\n=== Головне меню ===");
             System.out.println("1. Створити новий об’єкт");
             System.out.println("2. Вивести iнформацiю про всi об’єкти");
-            System.out.println("3. Завершити роботу програми");
+            System.out.println("3. Пошук об’єкта");
+            System.out.println("4. Завершити роботу програми");
 
             String choice = sc.nextLine().trim();
 
@@ -37,10 +38,13 @@ public class Main {
                         break;
 
                     case "3":
-                        JsonManager.save(books, "input.json");
-                        System.out.println("Дані збережено!");
-                    return;
+                        searchMenu(sc, books);
+                        break;
 
+                    case "4":
+                        FileManager.saveToFile(books, "input.txt");
+                        System.out.println("Дані збережено!");
+                        return;
                     default:
                         System.out.println("Невiрний вибiр");
                 }
