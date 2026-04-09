@@ -263,4 +263,41 @@ public class Main {
         }
     }
 }
+
+    private static ArrayList<Book> searchByTitle(ArrayList<Book> books, String title) {
+        ArrayList<Book> result = new ArrayList<>();
+
+        for (Book b : books) {
+            if (b.getTitle().toLowerCase().contains(title.toLowerCase())) {
+            result.add(b);
+            }
+        }
+
+        return result;
+    }
+
+    private static ArrayList<Book> searchByAuthor(ArrayList<Book> books, String author) {
+        ArrayList<Book> result = new ArrayList<>();
+
+        for (Book b : books) {
+            if (b.getAuthor().toLowerCase().contains(author.toLowerCase())) {
+            result.add(b);
+            }
+        }
+
+    return result;
+    }
+
+    private static ArrayList<Book> searchByYear(ArrayList<Book> books, int year) {
+        ArrayList<Book> result = new ArrayList<>();
+
+        for (Book b : books) {
+            if (b.getYear() == year) {
+            result.add(b);
+            }
+        }
+
+    return result;
+    }
+
 }
