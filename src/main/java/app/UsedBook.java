@@ -36,6 +36,11 @@ public class UsedBook extends Book {
     public String toString() {
         return "UsedBook{" +
                 "title='" + getTitle() + '\'' +
+                ", author='" + getAuthor() + '\'' +
+                ", year=" + getYear() +
+                ", price=" + getPrice() +
+                ", genre=" + getGenre() +
+                ", pages=" + getPages() +
                 ", condition='" + condition + '\'' +
                 ", discount=" + discount + "%" +
                 '}';
