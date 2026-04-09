@@ -300,4 +300,14 @@ public class Main {
     return result;
     }
 
+    private static void printResults(ArrayList<Book> result) {
+        if (result.isEmpty()) {
+            System.out.println("Нічого не знайдено");
+        } else {
+            System.out.println("\n--- Результати пошуку ---");
+            for (Book b : result) {
+                System.out.println(b);
+            }
+        }
+    }
 }
