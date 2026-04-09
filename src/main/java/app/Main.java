@@ -242,24 +242,24 @@ public class Main {
                 return;
 
             case "1":
-                System.out.print("Введіть назву: ");
+                System.out.print("Введiть назву: ");
                 String title = sc.nextLine();
                 printResults(searchByTitle(books, title));
                 break;
 
             case "2":
-                System.out.print("Введіть автора: ");
+                System.out.print("Введiть автора: ");
                 String author = sc.nextLine();
                 printResults(searchByAuthor(books, author));
                 break;
 
             case "3":
-                int year = readInt(sc, "Введіть рік: ", 0, 3000);
+                int year = readInt(sc, "Введiть рiк: ", 0, 3000);
                 printResults(searchByYear(books, year));
                 break;
 
             default:
-                System.out.println("Невірний вибір");
+                System.out.println("Невiрний вибiр");
         }
     }
 }
@@ -280,12 +280,12 @@ public class Main {
         ArrayList<Book> result = new ArrayList<>();
 
         for (Book b : books) {
-            if (b.getAuthor().toLowerCase().contains(author.toLowerCase())) {
+            if (b.getAuthor().equalsIgnoreCase(author)) {
             result.add(b);
             }
         }
 
-    return result;
+        return result;
     }
 
     private static ArrayList<Book> searchByYear(ArrayList<Book> books, int year) {
@@ -302,7 +302,7 @@ public class Main {
 
     private static void printResults(ArrayList<Book> result) {
         if (result.isEmpty()) {
-            System.out.println("Нічого не знайдено");
+            System.out.println("Нiчого не знайдено");
         } else {
             System.out.println("\n--- Результати пошуку ---");
             for (Book b : result) {
