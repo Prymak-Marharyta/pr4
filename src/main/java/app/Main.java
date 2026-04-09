@@ -42,7 +42,7 @@ public class Main {
                         break;
 
                     case "4":
-                        FileManager.saveToFile(books, "input.txt");
+                        JsonManager.save(books, "input.json");
                         System.out.println("Дані збережено!");
                         return;
                     default:
