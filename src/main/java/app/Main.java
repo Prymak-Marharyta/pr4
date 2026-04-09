@@ -226,4 +226,41 @@ public class Main {
             }
         }
     }
+
+    private static void searchMenu(Scanner sc, ArrayList<Book> books) {
+    while (true) {
+        System.out.println("\n--- Пошук ---");
+        System.out.println("1. За назвою");
+        System.out.println("2. За автором");
+        System.out.println("3. За роком");
+        System.out.println("0. Назад");
+
+        String choice = sc.nextLine().trim();
+
+        switch (choice) {
+            case "0":
+                return;
+
+            case "1":
+                System.out.print("Введіть назву: ");
+                String title = sc.nextLine();
+                printResults(searchByTitle(books, title));
+                break;
+
+            case "2":
+                System.out.print("Введіть автора: ");
+                String author = sc.nextLine();
+                printResults(searchByAuthor(books, author));
+                break;
+
+            case "3":
+                int year = readInt(sc, "Введіть рік: ", 0, 3000);
+                printResults(searchByYear(books, year));
+                break;
+
+            default:
+                System.out.println("Невірний вибір");
+        }
+    }
+}
 }
