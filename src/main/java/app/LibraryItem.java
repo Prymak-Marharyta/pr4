@@ -23,6 +23,6 @@ public class LibraryItem {
 
     @Override
     public String toString() {
-        return book.toString() + " | Кількість: " + quantity;
+        return book.toString() + " | Кiлькiсть: " + quantity;
     }
 }

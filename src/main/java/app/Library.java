@@ -82,7 +82,7 @@ public class Library {
     // вивід
     public void printAll() {
         if (items.isEmpty()) {
-            System.out.println("Бібліотека порожня");
+            System.out.println("Бiблiотека порожня");
         } else {
             for (LibraryItem item : items) {
                 System.out.println(item);
