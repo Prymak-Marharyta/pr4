@@ -29,6 +29,13 @@
         <artifactId>gson</artifactId>
         <version>2.10.1</version>
     </dependency>
+
+        <!-- PostgreSQL JDBC DRIVER -->
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>42.7.3</version>
+    </dependency>
 </dependencies>
 
 <build>
@@ -38,8 +45,10 @@
             <artifactId>exec-maven-plugin</artifactId>
             <version>3.3.0</version>
             <configuration>
-                <mainClass>app.Main</mainClass>
-            </configuration>
+                    <mainClass>app.Main</mainClass>
+                    <includeProjectDependencies>true</includeProjectDependencies>
+                    <includePluginDependencies>true</includePluginDependencies>
+                </configuration>
         </plugin>
     </plugins>
 </build>
