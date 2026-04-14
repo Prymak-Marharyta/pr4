@@ -6,10 +6,17 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        if (args.length == 0) {
+            System.out.println("Не передано файл конфігурації!");
+            return;
+        }
+        
         Scanner sc = new Scanner(System.in);
         ArrayList<Book> loadedBooks = FileManager.loadFromFile("input.txt");
         
         Library library = new Library();
+
+        DatabaseManager db = new DatabaseManager(args[0]);
 
         for (Book b : loadedBooks) {
             library.addNewBook(b, 1);
@@ -28,7 +35,7 @@ public class Main {
 
             switch (choice) {
                 case "1":
-                    createNewObjectMenu(sc, library);
+                    createNewObjectMenu(sc, library, db);
                     break;
 
                 case "2":
@@ -51,7 +58,7 @@ public class Main {
     }
 
     // меню створення об’єкта
-    private static void createNewObjectMenu(Scanner sc, Library library) {
+    private static void createNewObjectMenu(Scanner sc, Library library, DatabaseManager db) {
 
         System.out.println("Оберiть тип книги:");
         System.out.println("1. Book");
@@ -88,6 +95,7 @@ public class Main {
         case "1": {
             Book book = new Book(title, author, year, price, genre, pages);
             library.addNewBook(book, 1);
+            db.insertBook(book);
             break;
         }
 
@@ -95,6 +103,7 @@ public class Main {
             double size = readDouble(sc, "Розмiр файлу: ", 0, 10000);
             Book book = new EBook(title, author, year, price, genre, pages, size);
             library.addNewBook(book, 1);
+            db.insertBook(book);
             break;
         }
 
@@ -103,6 +112,7 @@ public class Main {
             String cover = sc.nextLine();
             Book book = new PaperBook(title, author, year, price, genre, pages, cover);
             library.addNewBook(book, 1);
+            db.insertBook(book);
             break;
         }
 
@@ -112,6 +122,7 @@ public class Main {
             String narrator = sc.nextLine();
             Book book = new AudioBook(title, author, year, price, genre, pages, duration, narrator);
             library.addNewBook(book, 1);
+            db.insertBook(book);
             break;
         }
 
@@ -121,6 +132,7 @@ public class Main {
             double discount = readDouble(sc, "Знижка: ", 0, 100);
             Book book = new UsedBook(title, author, year, price, genre, pages, condition, discount);
             library.addNewBook(book, 1);
+            db.insertBook(book);
             break;
         }
 
