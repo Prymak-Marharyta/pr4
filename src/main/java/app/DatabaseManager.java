@@ -52,11 +52,11 @@ public void insertBook(Book book) {
 
         // перевірка підкласів
         if (book instanceof EBook) {
-            ps.setDouble(8, ((EBook) book).getSize());
+            ps.setDouble(8, ((EBook) book).getFileSize());
         }
 
         if (book instanceof PaperBook) {
-            ps.setString(9, ((PaperBook) book).getCover());
+            ps.setString(9, ((PaperBook) book).getCoverType());
         }
 
         if (book instanceof AudioBook) {
