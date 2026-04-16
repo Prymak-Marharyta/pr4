@@ -25,9 +25,6 @@ public class FileManager {
                     int pages = Integer.parseInt(parts[6]);
 
                     switch (type) {
-                        case "Book":
-                            books.add(new Book(title, author, year, price, genre, pages));
-                            break;
 
                         case "EBook":
                             double size = Double.parseDouble(parts[7]);
@@ -49,6 +46,10 @@ public class FileManager {
                             double discount = Double.parseDouble(parts[8]);
                             books.add(new UsedBook(title, author, year, price, genre, pages, condition, discount));
                             break;
+
+                        default:
+                            System.out.println("Невідомий тип: " + type);
+                            break;
                     }
 
                 } catch (Exception e) {
@@ -65,43 +66,46 @@ public class FileManager {
 
     // метод для збереження даних у файл
     public static void saveToFile(ArrayList<Book> books, String fileName) {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
 
-        for (Book b : books) {
-            String line = "";
+            for (Book b : books) {
+                String line;
 
-            if (b instanceof EBook) {
-                EBook e = (EBook) b;
-                line = "EBook;" + e.getTitle() + ";" + e.getAuthor() + ";" +
-                        e.getYear() + ";" + e.getPrice() + ";" + e.getGenre() +
-                        ";" + e.getPages() + ";" + e.getFileSize();
-            } else if (b instanceof PaperBook) {
-                PaperBook p = (PaperBook) b;
-                line = "PaperBook;" + p.getTitle() + ";" + p.getAuthor() + ";" +
-                        p.getYear() + ";" + p.getPrice() + ";" + p.getGenre() +
-                        ";" + p.getPages() + ";" + p.getCoverType();
-            } else if (b instanceof AudioBook) {
-                AudioBook a = (AudioBook) b;
-                line = "AudioBook;" + a.getTitle() + ";" + a.getAuthor() + ";" +
-                        a.getYear() + ";" + a.getPrice() + ";" + a.getGenre() +
-                        ";" + a.getPages() + ";" + a.getDuration() + ";" + a.getNarrator();
-            } else if (b instanceof UsedBook) {
-                UsedBook u = (UsedBook) b;
-                line = "UsedBook;" + u.getTitle() + ";" + u.getAuthor() + ";" +
-                        u.getYear() + ";" + u.getPrice() + ";" + u.getGenre() +
-                        ";" + u.getPages() + ";" + u.getCondition() + ";" + u.getDiscount();
-            } else {
-                line = "Book;" + b.getTitle() + ";" + b.getAuthor() + ";" +
-                        b.getYear() + ";" + b.getPrice() + ";" + b.getGenre() +
-                        ";" + b.getPages();
+                if (b instanceof EBook) {
+                    EBook e = (EBook) b;
+                    line = "EBook;" + e.getTitle() + ";" + e.getAuthor() + ";" +
+                            e.getYear() + ";" + e.getPrice() + ";" + e.getGenre() +
+                            ";" + e.getPages() + ";" + e.getFileSize();
+
+                } else if (b instanceof PaperBook) {
+                    PaperBook p = (PaperBook) b;
+                    line = "PaperBook;" + p.getTitle() + ";" + p.getAuthor() + ";" +
+                            p.getYear() + ";" + p.getPrice() + ";" + p.getGenre() +
+                            ";" + p.getPages() + ";" + p.getCoverType();
+
+                } else if (b instanceof AudioBook) {
+                    AudioBook a = (AudioBook) b;
+                    line = "AudioBook;" + a.getTitle() + ";" + a.getAuthor() + ";" +
+                            a.getYear() + ";" + a.getPrice() + ";" + a.getGenre() +
+                            ";" + a.getPages() + ";" + a.getDuration() + ";" + a.getNarrator();
+
+                } else if (b instanceof UsedBook) {
+                    UsedBook u = (UsedBook) b;
+                    line = "UsedBook;" + u.getTitle() + ";" + u.getAuthor() + ";" +
+                            u.getYear() + ";" + u.getPrice() + ";" + u.getGenre() +
+                            ";" + u.getPages() + ";" + u.getCondition() + ";" + u.getDiscount();
+
+                } else {
+                    // на случай ошибки — просто пропускаем
+                    continue;
+                }
+
+                bw.write(line);
+                bw.newLine();
             }
 
-            bw.write(line);
-            bw.newLine();
+        } catch (IOException e) {
+            System.out.println("Помилка запису: " + e.getMessage());
         }
-
-    } catch (IOException e) {
-        System.out.println("Помилка запису: " + e.getMessage());
     }
-}
 }
