@@ -50,7 +50,7 @@ public class Main {
                     return;
 
                 default:
-                    System.out.println("Невiрний вибiр");
+                    System.out.println("Неправильний вибiр");
             }
         }
     }
@@ -121,7 +121,7 @@ public class Main {
         }
 
         default:
-            System.out.println("Невiрний вибiр");
+            System.out.println("Неправильний вибiр");
             return;
     }
 
@@ -160,7 +160,7 @@ private static void searchMenu(Scanner sc, Library library) {
                 break;
 
             default:
-                System.out.println("Невiрний вибiр");
+                System.out.println("Неправильний вибiр");
         }
     }
 }
