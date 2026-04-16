@@ -2,7 +2,7 @@ package app;
 
 import java.util.Objects;
 
-public class Book {
+public abstract class Book implements Comparable<Book> {
     private String title;
     private String author;
     private int year;
@@ -41,21 +41,21 @@ public class Book {
     public String getAuthor() { return author; }
     public void setAuthor(String author) {
         if (author == null || author.isBlank())
-            throw new IllegalArgumentException("Автор не може бути порожнім");
+            throw new IllegalArgumentException("Автор не може бути порожнiм");
         this.author = author;
     }
 
     public int getYear() { return year; }
     public void setYear(int year) {
         if (year < 0 || year > 3000)
-            throw new IllegalArgumentException("Некоректний рік");
+            throw new IllegalArgumentException("Некоректний рiк");
         this.year = year;
     }
 
     public double getPrice() { return price; }
     public void setPrice(double price) {
         if (price < 0)
-            throw new IllegalArgumentException("Ціна не може бути від’ємною");
+            throw new IllegalArgumentException("Цiна не може бути вiд’ємною");
         this.price = price;
     }
 
@@ -69,7 +69,7 @@ public class Book {
     public int getPages() { return pages; }
     public void setPages(int pages) {
         if (pages <= 0)
-            throw new IllegalArgumentException("Сторінки > 0");
+            throw new IllegalArgumentException("Сторiнки > 0");
         this.pages = pages;
     }
 
@@ -97,6 +97,11 @@ public class Book {
                 Objects.equals(title, book.title) &&
                 Objects.equals(author, book.author) &&
                 Objects.equals(genre, book.genre);
+    }
+
+    @Override
+    public int compareTo(Book other) {
+        return this.getTitle().compareToIgnoreCase(other.getTitle());
     }
 
     @Override
