@@ -79,6 +79,22 @@ public class Library {
         return result;
     }
 
+    public void printSorted() {
+
+        if (items.isEmpty()) {
+            System.out.println("Бібліотека порожня");
+            return;
+        }
+
+        ArrayList<Book> books = toBookList();
+
+        books.sort(null);
+
+        for (Book b : books) {
+            System.out.println(b);
+        }
+    }
+
     // вивід
     public void printAll() {
         if (items.isEmpty()) {
