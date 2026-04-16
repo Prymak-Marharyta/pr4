@@ -22,7 +22,8 @@ public class Main {
             System.out.println("1. Створити новий об’єкт");
             System.out.println("2. Вивести всi книги");
             System.out.println("3. Пошук");
-            System.out.println("4. Завершити роботу");
+            System.out.println("4. Вивести вiдсортованi книги");
+            System.out.println("5. Завершити роботу");
 
             String choice = sc.nextLine().trim();
 
@@ -38,8 +39,12 @@ public class Main {
                 case "3":
                     searchMenu(sc, library);
                     break;
-
+                
                 case "4":
+                    library.printSorted();
+                    break;
+
+                case "5":
                     FileManager.saveToFile(library.toBookList(), "input.txt");
                     System.out.println("Данi збережено!");
                     return;
@@ -54,11 +59,10 @@ public class Main {
     private static void createNewObjectMenu(Scanner sc, Library library) {
 
         System.out.println("Оберiть тип книги:");
-        System.out.println("1. Book");
-        System.out.println("2. EBook");
-        System.out.println("3. PaperBook");
-        System.out.println("4. AudioBook");
-        System.out.println("5. UsedBook");
+        System.out.println("1. EBook");
+        System.out.println("2. PaperBook");
+        System.out.println("3. AudioBook");
+        System.out.println("4. UsedBook");
 
         String type = sc.nextLine();
 
@@ -83,51 +87,45 @@ public class Main {
 
         int pages = readInt(sc, "Сторiнки: ", 1, 10000);
 
-     switch (type) {
+        Book book;
+
+    switch (type) {
 
         case "1": {
-            Book book = new Book(title, author, year, price, genre, pages);
-            library.addNewBook(book, 1);
+            double size = readDouble(sc, "Розмiр файлу: ", 0, 10000);
+            book = new EBook(title, author, year, price, genre, pages, size);
             break;
         }
 
         case "2": {
-            double size = readDouble(sc, "Розмiр файлу: ", 0, 10000);
-            Book book = new EBook(title, author, year, price, genre, pages, size);
-            library.addNewBook(book, 1);
+            System.out.print("Тип обкладинки: ");
+            String cover = sc.nextLine();
+            book = new PaperBook(title, author, year, price, genre, pages, cover);
             break;
         }
 
         case "3": {
-            System.out.print("Тип обкладинки: ");
-            String cover = sc.nextLine();
-            Book book = new PaperBook(title, author, year, price, genre, pages, cover);
-            library.addNewBook(book, 1);
+            int duration = readInt(sc, "Тривалiсть: ", 1, 10000);
+            System.out.print("Диктор: ");
+            String narrator = sc.nextLine();
+            book = new AudioBook(title, author, year, price, genre, pages, duration, narrator);
             break;
         }
 
         case "4": {
-            int duration = readInt(sc, "Тривалiсть: ", 1, 10000);
-            System.out.print("Диктор: ");
-            String narrator = sc.nextLine();
-            Book book = new AudioBook(title, author, year, price, genre, pages, duration, narrator);
-            library.addNewBook(book, 1);
-            break;
-        }
-
-        case "5": {
             System.out.print("Стан: ");
             String condition = sc.nextLine();
             double discount = readDouble(sc, "Знижка: ", 0, 100);
-            Book book = new UsedBook(title, author, year, price, genre, pages, condition, discount);
-            library.addNewBook(book, 1);
+            book = new UsedBook(title, author, year, price, genre, pages, condition, discount);
             break;
         }
 
         default:
             System.out.println("Невiрний вибiр");
+            return;
     }
 
+    library.addNewBook(book, 1);
     System.out.println("Книгу додано!");
 }
 
