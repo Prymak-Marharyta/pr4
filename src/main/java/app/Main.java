@@ -41,7 +41,7 @@ public class Main {
                     break;
                 
                 case "4":
-                    library.printSorted();
+                    sortMenu(sc, library);
                     break;
 
                 case "5":
@@ -129,7 +129,7 @@ public class Main {
     System.out.println("Книгу додано!");
 }
 
-private static void searchMenu(Scanner sc, Library library) {
+    private static void searchMenu(Scanner sc, Library library) {
 
     while (true) {
         System.out.println("\n--- Пошук ---");
@@ -157,6 +157,39 @@ private static void searchMenu(Scanner sc, Library library) {
             case "3":
                 int year = readInt(sc, "Введiть рiк: ", 0, 3000);
                 printResults(library.searchByYear(year));
+                break;
+
+            default:
+                System.out.println("Неправильний вибiр");
+        }
+    }
+}
+
+    private static void sortMenu(Scanner sc, Library library) {
+
+    while (true) {
+        System.out.println("\n--- Сортування ---");
+        System.out.println("1. За назвою");
+        System.out.println("2. За роком");
+        System.out.println("3. За цiною");
+        System.out.println("0. Назад");
+
+        String choice = sc.nextLine().trim();
+
+        switch (choice) {
+            case "0":
+                return;
+
+            case "1":
+                library.printSortedByTitle();
+                break;
+
+            case "2":
+                library.printSortedByYear();
+                break;
+
+            case "3":
+                library.printSortedByPrice();
                 break;
 
             default:
