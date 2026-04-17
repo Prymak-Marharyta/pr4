@@ -81,8 +81,8 @@ public class Library {
 
     public void printSortedByTitle() {
         if (items.isEmpty()) {
-            System.out.println("Бібліотека порожня");
-        return;
+            System.out.println("Бiблiотека порожня");
+            return;
     }
 
     ArrayList<Book> books = toBookList();
@@ -99,6 +99,26 @@ public class Library {
         }
     }
 
+    public void printSortedByYear() {
+        if (items.isEmpty()) {
+            System.out.println("Бiблiотека порожня");
+            return;
+    }
+
+    ArrayList<Book> books = toBookList();
+
+    books.sort(new java.util.Comparator<Book>() {
+        @Override
+        public int compare(Book o1, Book o2) {
+            return Integer.compare(o1.getYear(), o2.getYear());
+        }
+    });
+
+        for (Book b : books) {
+            System.out.println(b);
+        }
+    }
+    
     public void printSorted() {
 
         if (items.isEmpty()) {
