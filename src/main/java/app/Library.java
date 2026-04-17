@@ -119,10 +119,31 @@ public class Library {
         }
     }
     
+    public void printSortedByPrice() {
+
+    if (items.isEmpty()) {
+        System.out.println("Бiблiотека порожня");
+        return;
+    }
+
+    ArrayList<Book> books = toBookList();
+
+    books.sort(new java.util.Comparator<Book>() {
+        @Override
+        public int compare(Book o1, Book o2) {
+            return Double.compare(o1.getPrice(), o2.getPrice());
+        }
+    });
+
+        for (Book b : books) {
+            System.out.println(b);
+        }
+    }
+
     public void printSorted() {
 
         if (items.isEmpty()) {
-            System.out.println("Бібліотека порожня");
+            System.out.println("Бiблiотека порожня");
             return;
         }
 
