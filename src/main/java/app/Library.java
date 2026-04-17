@@ -79,6 +79,26 @@ public class Library {
         return result;
     }
 
+    public void printSortedByTitle() {
+        if (items.isEmpty()) {
+            System.out.println("Бібліотека порожня");
+        return;
+    }
+
+    ArrayList<Book> books = toBookList();
+
+    books.sort(new java.util.Comparator<Book>() {
+        @Override
+        public int compare(Book o1, Book o2) {
+            return o1.getTitle().compareToIgnoreCase(o2.getTitle());
+        }
+    });
+
+        for (Book b : books) {
+            System.out.println(b);
+        }
+    }
+
     public void printSorted() {
 
         if (items.isEmpty()) {
