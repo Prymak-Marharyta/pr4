@@ -118,12 +118,7 @@ public class Library {
 
     ArrayList<Book> books = toBookList();
 
-    books.sort(new java.util.Comparator<Book>() {
-        @Override
-        public int compare(Book o1, Book o2) {
-            return Double.compare(o1.getPrice(), o2.getPrice());
-        }
-    });
+    books.sort((o1, o2) -> Double.compare(o1.getPrice(), o2.getPrice()));
 
         for (Book b : books) {
             System.out.println(b);
