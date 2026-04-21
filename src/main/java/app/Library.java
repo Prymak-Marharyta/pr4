@@ -1,6 +1,7 @@
 package app;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Library {
 
@@ -74,6 +75,28 @@ public class Library {
             if (item.getBook().getYear() == year) {
                 result.add(item.getBook());
             }
+        }
+
+        return result;
+    }
+
+    public Book searchByUuid(String uuidText) {
+        UUID uuid = UUID.fromString(uuidText);
+
+        for (LibraryItem item : items) {
+            if (item.getBook().getUuid().equals(uuid)) {
+                return item.getBook();
+            }
+        }
+
+        return null;
+    }
+    
+    public ArrayList<Book> getAllBooks() {
+        ArrayList<Book> result = new ArrayList<>();
+
+        for (LibraryItem item : items) {
+            result.add(item.getBook());
         }
 
         return result;
