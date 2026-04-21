@@ -136,6 +136,7 @@ public class Main {
         System.out.println("1. За назвою");
         System.out.println("2. За автором");
         System.out.println("3. За роком");
+        System.out.println("4. За UUID");
         System.out.println("0. Назад");
 
         String choice = sc.nextLine().trim();
@@ -157,6 +158,23 @@ public class Main {
             case "3":
                 int year = readInt(sc, "Введiть рiк: ", 0, 3000);
                 printResults(library.searchByYear(year));
+                break;
+                
+            case "4":
+                System.out.print("Введiть UUID: ");
+                String uuidText = sc.nextLine().trim();
+
+                try {
+                    Book found = library.searchByUuid(uuidText);
+
+                    if (found == null) {
+                        System.out.println("Нiчого не знайдено");
+                    } else {
+                        System.out.println(found);
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Некоректний формат UUID");
+                }
                 break;
 
             default:
