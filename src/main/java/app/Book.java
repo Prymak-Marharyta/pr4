@@ -1,17 +1,21 @@
 package app;
 
 import java.util.Objects;
+import java.util.UUID;
 
-public abstract class Book implements Comparable<Book> {
+public abstract class Book implements Comparable<Book>, Identifiable {
+    private UUID uuid;
     private String title;
     private String author;
     private int year;
     private double price;
-    private Genre genre; // тепер enum
+    private Genre genre;
     private int pages;
 
     // Конструктор з перевірками через сеттери
     public Book(String title, String author, int year, double price, Genre genre, int pages) {
+        this.uuid = UUID.randomUUID();
+        
         setTitle(title); // перевірка, щоб назва не була порожньою
         setAuthor(author); // перевірка, щоб автор не був порожнім
         setYear(year); // перевірка на логічний рік
@@ -22,13 +26,18 @@ public abstract class Book implements Comparable<Book> {
 
     // конструктор копіювання
     public Book(Book other) {
-    this.title = other.title;
-    this.author = other.author;
-    this.year = other.year;
-    this.price = other.price;
-    this.genre = other.genre;
-    this.pages = other.pages;
-    
+        this.uuid = other.uuid;
+        this.title = other.title;
+        this.author = other.author;
+        this.year = other.year;
+        this.price = other.price;
+        this.genre = other.genre;
+        this.pages = other.pages;
+    }
+
+    @Override
+    public UUID getUuid() {
+        return uuid;
     }
 
     public String getTitle() { return title; }
@@ -73,10 +82,15 @@ public abstract class Book implements Comparable<Book> {
         this.pages = pages;
     }
 
+    public String toShortString() {
+        return getClass().getSimpleName() + ": " + title + " | UUID: " + uuid;
+    }
+    
     @Override
     public String toString() {
-        return "Book{" +
-                "title='" + title + '\'' +
+        return getClass().getSimpleName() + "{" +
+                "uuid=" + uuid +
+                ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", year=" + year +
                 ", price=" + price +
@@ -91,21 +105,16 @@ public abstract class Book implements Comparable<Book> {
         if (this == o) return true;
         if (!(o instanceof Book)) return false;
         Book book = (Book) o;
-        return year == book.year &&
-                Double.compare(book.price, price) == 0 &&
-                pages == book.pages &&
-                Objects.equals(title, book.title) &&
-                Objects.equals(author, book.author) &&
-                Objects.equals(genre, book.genre);
+        return Objects.equals(uuid, book.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
     }
 
     @Override
     public int compareTo(Book other) {
         return this.getTitle().compareToIgnoreCase(other.getTitle());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, author, year, price, genre, pages);
     }
 }
