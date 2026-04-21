@@ -34,9 +34,7 @@ public class AudioBook extends Book {
 
     @Override
     public String toString() {
-        return "AudioBook{" +
-                "title='" + getTitle() + '\'' +
-                ", author='" + getAuthor() + '\'' +
+        return super.toString().replace("}", "") +
                 ", duration=" + duration +
                 ", narrator='" + narrator + '\'' +
                 '}';

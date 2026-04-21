@@ -22,13 +22,7 @@ public class PaperBook extends Book {
 
     @Override
     public String toString() {
-        return "PaperBook{" +
-                "title='" + getTitle() + '\'' +
-                ", author='" + getAuthor() + '\'' +
-                ", year=" + getYear() +
-                ", price=" + getPrice() +
-                ", genre=" + getGenre() +
-                ", pages=" + getPages() +
+        return super.toString().replace("}", "") +
                 ", coverType='" + coverType + '\'' +
                 '}';
     }

@@ -34,13 +34,7 @@ public class UsedBook extends Book {
 
     @Override
     public String toString() {
-        return "UsedBook{" +
-                "title='" + getTitle() + '\'' +
-                ", author='" + getAuthor() + '\'' +
-                ", year=" + getYear() +
-                ", price=" + getPrice() +
-                ", genre=" + getGenre() +
-                ", pages=" + getPages() +
+        return super.toString().replace("}", "") +
                 ", condition='" + condition + '\'' +
                 ", discount=" + discount + "%" +
                 '}';

@@ -22,13 +22,7 @@ public class EBook extends Book {
 
     @Override
     public String toString() {
-        return "EBook{" +
-                "title='" + getTitle() + '\'' +
-                ", author='" + getAuthor() + '\'' +
-                ", year=" + getYear() +
-                ", price=" + getPrice() +
-                ", genre=" + getGenre() +
-                ", pages=" + getPages() +
+        return super.toString().replace("}", "") +
                 ", fileSize=" + fileSize +
                 " MB}";
     }
