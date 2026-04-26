@@ -1,7 +1,6 @@
 package app;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class Library {
 
@@ -26,6 +25,55 @@ public class Library {
         }
 
         items.add(new LibraryItem(bk, quantity));
+    }
+
+    public boolean update(Book existingObject, Book newObject) {
+        for (LibraryItem item : items) {
+            if (item.getBook().equals(existingObject)) {
+                item.setBook(newObject);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean delete(Book existingObject) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getBook().equals(existingObject)) {
+                items.remove(i);
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+        public boolean isEmpty() {
+        return items.isEmpty();
+    }
+
+    public int getItemsCount() {
+        return items.size();
+    }
+
+    public Book getBookByNumber(int number) {
+        if (number < 1 || number > items.size()) {
+            return null;
+        }
+
+        return items.get(number - 1).getBook();
+    }
+    
+    public void printAllWithNumbers() {
+        if (items.isEmpty()) {
+            System.out.println("Бiблiотека порожня");
+            return;
+        }
+
+        for (int i = 0; i < items.size(); i++) {
+            System.out.println((i + 1) + ". " + items.get(i));
+        }
     }
 
     // повертає список книг (для збереження у файл)
@@ -79,29 +127,7 @@ public class Library {
 
         return result;
     }
-
-    public Book searchByUuid(String uuidText) {
-        UUID uuid = UUID.fromString(uuidText);
-
-        for (LibraryItem item : items) {
-            if (item.getBook().getUuid().equals(uuid)) {
-                return item.getBook();
-            }
-        }
-
-        return null;
-    }
     
-    public ArrayList<Book> getAllBooks() {
-        ArrayList<Book> result = new ArrayList<>();
-
-        for (LibraryItem item : items) {
-            result.add(item.getBook());
-        }
-
-        return result;
-    }
-
     public void printSortedByTitle() {
         if (items.isEmpty()) {
             System.out.println("Бiблiотека порожня");
