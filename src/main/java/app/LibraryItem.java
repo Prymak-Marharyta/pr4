@@ -1,6 +1,7 @@
 package app;
 
 public class LibraryItem {
+
     private Book book;
     private int quantity;
 
@@ -13,16 +14,20 @@ public class LibraryItem {
         return book;
     }
 
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
     public int getQuantity() {
         return quantity;
     }
 
-    public void addQuantity(int q) {
-        this.quantity += q;
+    public void addQuantity(int quantity) {
+        this.quantity += quantity;
     }
 
     @Override
     public String toString() {
-        return book.toString() + " | Кiлькiсть: " + quantity;
+        return book + ", quantity=" + quantity;
     }
 }
