@@ -21,9 +21,11 @@ public class Main {
             System.out.println("\n=== Головне меню ===");
             System.out.println("1. Створити новий об’єкт");
             System.out.println("2. Вивести всi книги");
-            System.out.println("3. Пошук");
-            System.out.println("4. Вивести вiдсортованi книги");
-            System.out.println("5. Завершити роботу");
+            System.out.println("3. Модифiкувати книгу");
+            System.out.println("4. Видалити книгу");
+            System.out.println("5. Пошук");
+            System.out.println("6. Вивести вiдсортованi книги");
+            System.out.println("7. Завершити роботу");
 
             String choice = sc.nextLine().trim();
 
@@ -33,18 +35,26 @@ public class Main {
                     break;
 
                 case "2":
-                    library.printAll();
+                    library.printAllWithNumbers();
                     break;
 
                 case "3":
-                    searchMenu(sc, library);
+                    updateBookMenu(sc, library);
                     break;
-                
+
                 case "4":
-                    sortMenu(sc, library);
+                    deleteBookMenu(sc, library);
                     break;
 
                 case "5":
+                    searchMenu(sc, library);
+                    break;
+
+                case "6":
+                    sortMenu(sc, library);
+                    break;
+
+                case "7":
                     FileManager.saveToFile(library.toBookList(), "input.txt");
                     System.out.println("Данi збережено!");
                     return;
@@ -75,16 +85,8 @@ public class Main {
         int year = readInt(sc, "Рiк: ", 0, 3000);
         double price = readDouble(sc, "Цiна: ", 0, 100000);
 
-        Genre genre = null;
-        while (genre == null) {
-            try {
-                System.out.println("Жанр (FICTION, SCIENCE, HISTORY, FANTASY, DETECTIVE): ");
-                genre = Genre.valueOf(sc.nextLine().trim().toUpperCase());
-            } catch (Exception e) {
-                System.out.println("Помилка жанру");
-            }
-        }
-
+        Genre genre = readGenre(sc);
+        
         int pages = readInt(sc, "Сторiнки: ", 1, 10000);
 
         Book book;
@@ -129,6 +131,197 @@ public class Main {
     System.out.println("Книгу додано!");
 }
 
+    private static void updateBookMenu(Scanner sc, Library library) {
+
+        if (library.isEmpty()) {
+            System.out.println("Бiблiотека порожня. Немає що модифiкувати.");
+            return;
+        }
+
+        System.out.println("\n--- Модифiкацiя книги ---");
+        library.printAllWithNumbers();
+
+        int number = readInt(sc, "Оберiть номер книги: ", 1, library.getItemsCount());
+        Book oldBook = library.getBookByNumber(number);
+
+        if (oldBook == null) {
+            System.out.println("Книгу не знайдено");
+            return;
+        }
+
+        Book newBook = createUpdatedBook(sc, oldBook);
+
+        if (newBook == null) {
+            System.out.println("Модифiкацiю скасовано.");
+            return;
+        }
+
+        boolean result = library.update(oldBook, newBook);
+
+        if (result) {
+            System.out.println("Книгу успiшно модифiковано!");
+        } else {
+            System.out.println("Книгу не знайдено. Модифiкацiю не виконано.");
+        }
+    }
+
+private static Book createUpdatedBook(Scanner sc, Book oldBook) {
+
+    String title = oldBook.getTitle();
+    String author = oldBook.getAuthor();
+    int year = oldBook.getYear();
+    double price = oldBook.getPrice();
+    Genre genre = oldBook.getGenre();
+    int pages = oldBook.getPages();
+
+    System.out.println("\nОберiть атрибут для змiни:");
+    System.out.println("1. Назва");
+    System.out.println("2. Автор");
+    System.out.println("3. Рiк");
+    System.out.println("4. Цiна");
+    System.out.println("5. Жанр");
+    System.out.println("6. Кiлькiсть сторiнок");
+
+    if (oldBook instanceof EBook) {
+        System.out.println("7. Розмiр файлу");
+    } else if (oldBook instanceof PaperBook) {
+        System.out.println("7. Тип обкладинки");
+    } else if (oldBook instanceof AudioBook) {
+        System.out.println("7. Тривалiсть");
+        System.out.println("8. Диктор");
+    } else if (oldBook instanceof UsedBook) {
+        System.out.println("7. Стан");
+        System.out.println("8. Знижка");
+    }
+
+    String choice = sc.nextLine().trim();
+
+    if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") &&
+        !choice.equals("4") && !choice.equals("5") && !choice.equals("6") &&
+        !choice.equals("7") && !choice.equals("8")) {
+        System.out.println("Неправильний вибiр");
+        return null;
+    }
+
+    switch (choice) {
+        case "1":
+            System.out.print("Нова назва: ");
+            title = sc.nextLine();
+            break;
+
+        case "2":
+            System.out.print("Новий автор: ");
+            author = sc.nextLine();
+            break;
+
+        case "3":
+            year = readInt(sc, "Новий рiк: ", 0, 3000);
+            break;
+
+        case "4":
+            price = readDouble(sc, "Нова цiна: ", 0, 100000);
+            break;
+
+        case "5":
+            genre = readGenre(sc);
+            break;
+
+        case "6":
+            pages = readInt(sc, "Нова кiлькiсть сторiнок: ", 1, 10000);
+            break;
+    }
+
+    if (oldBook instanceof EBook) {
+        EBook oldEBook = (EBook) oldBook;
+        double fileSize = oldEBook.getFileSize();
+
+        if (choice.equals("7")) {
+            fileSize = readDouble(sc, "Новий розмiр файлу: ", 0, 10000);
+        }
+
+        return new EBook(title, author, year, price, genre, pages, fileSize);
+    }
+
+    if (oldBook instanceof PaperBook) {
+        PaperBook oldPaperBook = (PaperBook) oldBook;
+        String coverType = oldPaperBook.getCoverType();
+
+        if (choice.equals("7")) {
+            System.out.print("Новий тип обкладинки: ");
+            coverType = sc.nextLine();
+        }
+
+        return new PaperBook(title, author, year, price, genre, pages, coverType);
+    }
+
+    if (oldBook instanceof AudioBook) {
+        AudioBook oldAudioBook = (AudioBook) oldBook;
+        int duration = oldAudioBook.getDuration();
+        String narrator = oldAudioBook.getNarrator();
+
+        if (choice.equals("7")) {
+            duration = readInt(sc, "Нова тривалiсть: ", 1, 10000);
+        } else if (choice.equals("8")) {
+            System.out.print("Новий диктор: ");
+            narrator = sc.nextLine();
+        }
+
+        return new AudioBook(title, author, year, price, genre, pages, duration, narrator);
+    }
+
+    if (oldBook instanceof UsedBook) {
+        UsedBook oldUsedBook = (UsedBook) oldBook;
+        String condition = oldUsedBook.getCondition();
+        double discount = oldUsedBook.getDiscount();
+
+        if (choice.equals("7")) {
+            System.out.print("Новий стан: ");
+            condition = sc.nextLine();
+        } else if (choice.equals("8")) {
+            discount = readDouble(sc, "Нова знижка: ", 0, 100);
+        }
+
+        return new UsedBook(title, author, year, price, genre, pages, condition, discount);
+    }
+
+        return oldBook;
+    }
+
+    private static void deleteBookMenu(Scanner sc, Library library) {
+
+        if (library.isEmpty()) {
+            System.out.println("Бiблiотека порожня. Нема що видаляти.");
+            return;
+        }
+
+        System.out.println("\n--- Видалення книги ---");
+        library.printAllWithNumbers();
+
+        int number = readInt(sc, "Оберiть номер книги: ", 1, library.getItemsCount());
+        Book book = library.getBookByNumber(number);
+
+        if (book == null) {
+            System.out.println("Книгу не знайдено");
+            return;
+        }
+
+        System.out.print("Ви дiйсно хочете видалити цю книгу? (yes/no): ");
+        String answer = sc.nextLine().trim();
+
+        if (!answer.equalsIgnoreCase("yes")) {
+            System.out.println("Видалення скасовано.");
+            return;
+        }
+
+        boolean result = library.delete(book);
+
+        if (result) {
+            System.out.println("Книгу успiшно видалено!");
+        } else {
+            System.out.println("Книгу не знайдено. Видалення не виконано.");
+        }
+    }
+
     private static void searchMenu(Scanner sc, Library library) {
 
     while (true) {
@@ -136,7 +329,6 @@ public class Main {
         System.out.println("1. За назвою");
         System.out.println("2. За автором");
         System.out.println("3. За роком");
-        System.out.println("4. За UUID");
         System.out.println("0. Назад");
 
         String choice = sc.nextLine().trim();
@@ -160,23 +352,6 @@ public class Main {
                 printResults(library.searchByYear(year));
                 break;
                 
-            case "4":
-                System.out.print("Введiть UUID: ");
-                String uuidText = sc.nextLine().trim();
-
-                try {
-                    Book found = library.searchByUuid(uuidText);
-
-                    if (found == null) {
-                        System.out.println("Нiчого не знайдено");
-                    } else {
-                        System.out.println(found);
-                    }
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Некоректний формат UUID");
-                }
-                break;
-
             default:
                 System.out.println("Неправильний вибiр");
         }
@@ -226,6 +401,21 @@ public class Main {
         }
     }
 
+        private static Genre readGenre(Scanner sc) {
+        Genre genre = null;
+
+        while (genre == null) {
+            try {
+                System.out.println("Жанр (FICTION, SCIENCE, HISTORY, FANTASY, DETECTIVE): ");
+                genre = Genre.valueOf(sc.nextLine().trim().toUpperCase());
+            } catch (Exception e) {
+                System.out.println("Помилка жанру");
+            }
+        }
+
+        return genre;
+    }
+    
     // метод для безпечного читання int з перевіркою діапазону
     private static int readInt(Scanner sc, String prompt, int min, int max) {
         while (true) {
