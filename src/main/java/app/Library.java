@@ -1,5 +1,7 @@
 package app;
 
+import app.exceptions.ObjectNotFoundException;
+
 import java.util.ArrayList;
 
 public class Library {
@@ -27,29 +29,29 @@ public class Library {
         items.add(new LibraryItem(bk, quantity));
     }
 
-    public boolean update(Book existingObject, Book newObject) {
+    public void update(Book existingObject, Book newObject) {
         for (LibraryItem item : items) {
             if (item.getBook().equals(existingObject)) {
                 item.setBook(newObject);
-                return true;
+                return;
             }
         }
 
-        return false;
+        throw new ObjectNotFoundException("Книгу для модифікації не знайдено");
     }
 
-    public boolean delete(Book existingObject) {
+    public void delete(Book existingObject) {
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getBook().equals(existingObject)) {
                 items.remove(i);
-                return true;
+                return;
             }
         }
 
-        return false;
+        throw new ObjectNotFoundException("Книгу для видалення не знайдено");
     }
     
-        public boolean isEmpty() {
+    public boolean isEmpty() {
         return items.isEmpty();
     }
 
@@ -59,7 +61,7 @@ public class Library {
 
     public Book getBookByNumber(int number) {
         if (number < 1 || number > items.size()) {
-            return null;
+            throw new ObjectNotFoundException("Книгу з таким номером не знайдено");
         }
 
         return items.get(number - 1).getBook();
