@@ -1,5 +1,7 @@
 package app;
 
+import app.exceptions.InvalidFieldValueException;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -42,43 +44,49 @@ public abstract class Book implements Comparable<Book>, Identifiable {
 
     public String getTitle() { return title; }
     public void setTitle(String title) {
-        if (title == null || title.isBlank())
-            throw new IllegalArgumentException("Назва не може бути порожньою");
+        if (title == null || title.trim().isEmpty()) {
+            throw new InvalidFieldValueException("Назва книги не може бути порожньою");
+        }
         this.title = title;
     }
 
     public String getAuthor() { return author; }
     public void setAuthor(String author) {
-        if (author == null || author.isBlank())
-            throw new IllegalArgumentException("Автор не може бути порожнiм");
+        if (author == null || author.trim().isEmpty()) {
+            throw new InvalidFieldValueException("Автор книги не може бути порожнім");
+        }
         this.author = author;
     }
 
     public int getYear() { return year; }
     public void setYear(int year) {
-        if (year < 0 || year > 3000)
-            throw new IllegalArgumentException("Некоректний рiк");
+        if (year < 0 || year > 3000) {
+            throw new InvalidFieldValueException("Рік видання має бути в межах від 0 до 3000");
+        }
         this.year = year;
     }
 
     public double getPrice() { return price; }
     public void setPrice(double price) {
-        if (price < 0)
-            throw new IllegalArgumentException("Цiна не може бути вiд’ємною");
+        if (price < 0) {
+            throw new InvalidFieldValueException("Ціна книги не може бути від’ємною");
+        }
         this.price = price;
     }
 
     public Genre getGenre() { return genre; }
     public void setGenre(Genre genre) {
-        if (genre == null)
-            throw new IllegalArgumentException("Жанр не може бути null");
+        if (genre == null) {
+            throw new InvalidFieldValueException("Жанр книги не може бути порожнім");
+        }
         this.genre = genre;
     }
     
     public int getPages() { return pages; }
     public void setPages(int pages) {
-        if (pages <= 0)
-            throw new IllegalArgumentException("Сторiнки > 0");
+        if (pages <= 0) {
+            throw new InvalidFieldValueException("Кількість сторінок має бути більшою за 0");
+        }
         this.pages = pages;
     }
 
@@ -88,15 +96,13 @@ public abstract class Book implements Comparable<Book>, Identifiable {
     
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "uuid=" + uuid +
+        return "uuid=" + uuid +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", year=" + year +
                 ", price=" + price +
                 ", genre=" + genre +
-                ", pages=" + pages +
-                '}';
+                ", pages=" + pages;
     }
 
 
@@ -115,6 +121,6 @@ public abstract class Book implements Comparable<Book>, Identifiable {
 
     @Override
     public int compareTo(Book other) {
-        return this.getTitle().compareToIgnoreCase(other.getTitle());
+        return this.title.compareToIgnoreCase(other.title);
     }
 }
