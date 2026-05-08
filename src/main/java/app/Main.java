@@ -1,5 +1,8 @@
 package app;
 
+import app.exceptions.InvalidFieldValueException;
+import app.exceptions.ObjectNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -91,7 +94,8 @@ public class Main {
 
         Book book;
 
-    switch (type) {
+        try {
+        switch (type) {
 
         case "1": {
             double size = readDouble(sc, "Розмiр файлу: ", 0, 10000);
@@ -129,7 +133,11 @@ public class Main {
 
     library.addNewBook(book, 1);
     System.out.println("Книгу додано!");
-}
+
+        } catch (InvalidFieldValueException e) {
+            System.out.println("Помилка: " + e.getMessage());
+        }
+    }
 
     private static void updateBookMenu(Scanner sc, Library library) {
 
@@ -141,13 +149,9 @@ public class Main {
         System.out.println("\n--- Модифiкацiя книги ---");
         library.printAllWithNumbers();
 
+        try {
         int number = readInt(sc, "Оберiть номер книги: ", 1, library.getItemsCount());
         Book oldBook = library.getBookByNumber(number);
-
-        if (oldBook == null) {
-            System.out.println("Книгу не знайдено");
-            return;
-        }
 
         Book newBook = createUpdatedBook(sc, oldBook);
 
@@ -156,15 +160,13 @@ public class Main {
             return;
         }
 
-        boolean result = library.update(oldBook, newBook);
+        library.update(oldBook, newBook);
+        System.out.println("Книгу успiшно модифiковано!");
 
-        if (result) {
-            System.out.println("Книгу успiшно модифiковано!");
-        } else {
-            System.out.println("Книгу не знайдено. Модифiкацiю не виконано.");
+        } catch (ObjectNotFoundException | InvalidFieldValueException e) {
+            System.out.println("Помилка: " + e.getMessage());
         }
     }
-
 private static Book createUpdatedBook(Scanner sc, Book oldBook) {
 
     String title = oldBook.getTitle();
@@ -297,28 +299,23 @@ private static Book createUpdatedBook(Scanner sc, Book oldBook) {
         System.out.println("\n--- Видалення книги ---");
         library.printAllWithNumbers();
 
-        int number = readInt(sc, "Оберiть номер книги: ", 1, library.getItemsCount());
-        Book book = library.getBookByNumber(number);
+        try {
+            int number = readInt(sc, "Оберiть номер книги: ", 1, library.getItemsCount());
+            Book book = library.getBookByNumber(number);
 
-        if (book == null) {
-            System.out.println("Книгу не знайдено");
-            return;
-        }
+            System.out.print("Ви дiйсно хочете видалити цю книгу? (yes/no): ");
+            String answer = sc.nextLine().trim();
 
-        System.out.print("Ви дiйсно хочете видалити цю книгу? (yes/no): ");
-        String answer = sc.nextLine().trim();
+            if (!answer.equalsIgnoreCase("yes")) {
+                System.out.println("Видалення скасовано.");
+                return;
+            }
 
-        if (!answer.equalsIgnoreCase("yes")) {
-            System.out.println("Видалення скасовано.");
-            return;
-        }
-
-        boolean result = library.delete(book);
-
-        if (result) {
+            library.delete(book);
             System.out.println("Книгу успiшно видалено!");
-        } else {
-            System.out.println("Книгу не знайдено. Видалення не виконано.");
+
+        } catch (ObjectNotFoundException e) {
+            System.out.println("Помилка: " + e.getMessage());
         }
     }
 
